@@ -1,0 +1,38 @@
+# © 2025 Dilip Kumar S and Gokul S. All Rights Reserved.
+# Authors: Dilip Kumar S , Gokul S
+# Date: 2025-01-01
+# This script is part of a proprietary project and may not be copied,
+# modified, distributed, or used without explicit written permission 
+# from the authors.
+#
+# This work was developed as part of a project at the Department of Robotics 
+# and Automation, Rajalakshmi Engineering College, under the mentorship of 
+# Mr. Ramkumar and guidance of our HoD, Dr. Giri.
+#
+# WARNING: Any attempt to remove or alter this notice is strictly prohibited.
+import cv2
+import numpy as np
+
+# Define the known world coordinates (Dobot's position in mm)
+robot_points = np.array([
+    [170.5556, 47.1373],   # Position 1
+    [163.4667, -91.1493],   # Position 2
+    [296.1109, 94.4612],  # Position 3
+    [300.0156, 39.8643]   # Position 4
+], dtype=np.float32)
+
+# Capture pixel coordinates from camera for these positions
+pixel_points = np.array([
+    [242, 324],  # Corresponding pixel of Position 1
+    [462, 320],  # Corresponding pixel of Position 2
+    [454, 95],  # Corresponding pixel of Position 3
+    [239, 112]   # Corresponding pixel of Position 4
+], dtype=np.float32)
+
+# Compute the homography matrix
+H, status = cv2.findHomography(pixel_points, robot_points)
+
+# Save the matrix
+np.save('cam_to_dobot_matrix.npy', H)
+print("✅ Homography matrix saved!")
+print(H)
